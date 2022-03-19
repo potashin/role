@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("rails", ">= 7.0.2.3")
 
   spec.add_development_dependency("rspec-rails")
+  spec.add_development_dependency("factory_bot_rails")
   spec.add_development_dependency("rubocop")
   spec.add_development_dependency("rubocop-rails")
   spec.add_development_dependency("rubocop-rspec")
