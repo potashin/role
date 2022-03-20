@@ -120,6 +120,8 @@ class Role::ExportsController < Role::ApplicationController
     export = Role::Export.create(**export_params, status: :new)
     return render_errors_as_json(export) unless export.valid?
 
+    Role::ExportService.new(export).call
+
     render_as_json(item_as_json(export), status: 201)
   end
 

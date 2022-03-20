@@ -1,25 +1,6 @@
-# Role
-Short description and motivation.
+# Role (Registry of Legal Entities)
 
-## Usage
-How to use my plugin.
-
-## Installation
-Add this line to your application's Gemfile:
-
-```ruby
-gem "role"
-```
-
-And then execute:
-```bash
-$ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install role
-```
+Role Rails Engine provides API to request & store PDF exports from Federal Tax Service for legal entities like companies, entrepreneurs and self-employed persons based on their IDs (INN/OGRNIP/OGRN).
 
 ## Contributing
 Contribution directions go here.
