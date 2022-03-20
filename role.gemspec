@@ -23,10 +23,15 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency("rails", ">= 7.0.2.3")
+  spec.add_dependency("activestorage-validator", "~> 0.2")
+  spec.add_dependency("typhoeus", "~> 1.4")
+  spec.add_dependency("oj", "~> 3.13")
 
   spec.add_development_dependency("rspec-rails")
   spec.add_development_dependency("factory_bot_rails")
   spec.add_development_dependency("rubocop")
   spec.add_development_dependency("rubocop-rails")
   spec.add_development_dependency("rubocop-rspec")
+  spec.add_development_dependency("pry-rails")
+  spec.add_development_dependency("webmock", "~> 3.14")
 end
