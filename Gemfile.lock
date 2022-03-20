@@ -5,6 +5,7 @@ PATH
       activestorage-validator (~> 0.2)
       oj (~> 3.13)
       rails (>= 7.0.2.3)
+      swagger-blocks (~> 3.0)
       typhoeus (~> 1.4)
 
 GEM
@@ -219,6 +220,7 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
     strscan (3.0.1)
+    swagger-blocks (3.0.0)
     thor (1.2.1)
     timeout (0.2.0)
     typhoeus (1.4.0)

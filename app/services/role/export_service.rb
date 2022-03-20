@@ -70,7 +70,7 @@ module Role
     def create_tmp_file(string_io:, path:)
       path = Rails.root.join("tmp", path)
       File.open(path, "wb") { |file| file.write(string_io) }
-      yield File.new(path) if block_given?
+      yield(File.new(path)) if block_given?
       File.delete(path) if File.exist?(path)
     end
   end

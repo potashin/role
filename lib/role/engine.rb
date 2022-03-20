@@ -1,3 +1,8 @@
+require "typhoeus"
+require "oj"
+require "activestorage/validator"
+require "swagger/blocks"
+
 module Role
   class Engine < ::Rails::Engine
     isolate_namespace Role

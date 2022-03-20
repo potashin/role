@@ -1,6 +1,3 @@
-require "typhoeus"
-require "oj"
-
 module Role
   class RequestService
     URL = "https://egrul.nalog.ru"

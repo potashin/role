@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("activestorage-validator", "~> 0.2")
   spec.add_dependency("typhoeus", "~> 1.4")
   spec.add_dependency("oj", "~> 3.13")
+  spec.add_dependency("swagger-blocks", "~> 3.0")
 
   spec.add_development_dependency("rspec-rails")
   spec.add_development_dependency("factory_bot_rails")
