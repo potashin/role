@@ -9,7 +9,7 @@ module Role
     end
 
     include Swagger::Blocks
-    
+
     def render_as_json(data, meta: {}, status: 200)
       render(json: { meta: meta, data: data }, status: status)
     end

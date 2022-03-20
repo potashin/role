@@ -15,19 +15,11 @@ module Role
     validate :entity_id_by_entity_type
 
     def entity_id_by_entity_type
-      # if person? && !ogrnip?(entity_id)
-      #   errors.add(:entity_id, "Person ID is not a valid OGRNIP")
-      # elsif company? && !ogrn?(entity_id)
-      #   errors.add(:entity_id, "Company ID is not a valid OGRN")
-      # end
-    end
-
-    def ogrn?(str)
-      str&.match?(/^\d{13}$/)
-    end
-
-    def ogrnip?(str)
-      str&.match?(/^\d{15}$/)
+      if person? && !(entity_id&.ogrnip? || entity_id&.person_inn?)
+        errors.add(:entity_id, "Person ID is not a valid OGRNIP/INN")
+      elsif company? && !(entity_id&.ogrn? || entity_id&.company_inn?)
+        errors.add(:entity_id, "Company ID is not a valid OGRN/INN")
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/role/exports/:entity_id", type: :request do
   let(:root) { "/role/exports/#{entity_id}" }
   let(:url) { root }
-  let(:entity_id) { "1" }
+  let(:entity_id) { "321144700054708" }
   let(:entity_type) { "person" }
   let(:parameters) { { data: { attributes: { entity_id: entity_id, entity_type: entity_type } } } }
   let!(:export) { create(:export, **parameters.dig(:data, :attributes)) }
@@ -33,12 +33,14 @@ describe "/role/exports/:entity_id", type: :request do
   def expect_json_errors
     errors = json["errors"]
 
-    expect(errors).not_to be_empty
+    expect(errors).not_to(be_empty)
 
-    yield errors if block_given?
+    yield(errors) if block_given?
 
-    expect(errors).to all(
-      include("title" => be_a(String))
+    expect(errors).to(
+      all(
+        include("title" => be_a(String))
+      )
     )
   end
 

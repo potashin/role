@@ -43,8 +43,7 @@ module Role
     private
 
     def query_valid?
-      true
-      # @query&.company_inn? || @query&.person_inn? || @query&.ogrn? || @query&.ogrnip?
+      @query&.company_inn? || @query&.person_inn? || @query&.ogrn? || @query&.ogrnip?
     end
 
     def result_status_ready?(token, retry_count = 0)
