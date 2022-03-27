@@ -2,5 +2,5 @@ require "role/version"
 require "role/engine"
 
 module Role
-  # Your code goes here...
+  # mattr_accessor :sidekiq_queue
 end

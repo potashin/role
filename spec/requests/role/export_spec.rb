@@ -55,8 +55,10 @@ describe "/role/exports/:entity_id", type: :request do
 
   context "POST" do
     it "should have status 201 (Created)" do
-      allow_any_instance_of(Role::ExportService).to(receive(:call).once)
-
+      expect(Role::ExportJob).to receive(:perform_async) { |arg| 
+        expect(arg).to eq(Role::Export.last&.id) 
+      }.once
+      
       post(url, params: parameters)
 
       expect(response.status).to(eq(201))
