@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency("rails", ">= 7.0.2.3")
+  spec.add_dependency("activestorage", "~> 7.0")
   spec.add_dependency("activestorage-validator", "~> 0.2")
   spec.add_dependency("typhoeus", "~> 1.4")
   spec.add_dependency("oj", "~> 3.13")

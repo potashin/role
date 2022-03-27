@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     role (0.1.0)
+      activestorage (~> 7.0)
       activestorage-validator (~> 0.2)
       oj (~> 3.13)
       rails (>= 7.0.2.3)
