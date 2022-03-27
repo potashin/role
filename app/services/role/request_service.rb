@@ -1,7 +1,7 @@
 module Role
   class RequestService
     URL = "https://egrul.nalog.ru"
-    MAX_RETRY_COUNT = 10
+    MAX_RETRY_COUNT = 5
 
     class InvalidArgumentError < StandardError; end
     class RequestTokenError < StandardError; end
@@ -64,7 +64,7 @@ module Role
     end
 
     def get_result_token(token)
-      response = @request.get("#{URL}/search-result/#{token}")
+      response = @request.get("#{URL}/search-result/#{token}", **timeouts)
       return unless response.success?
       parsed_response = parse(response)
 
@@ -74,17 +74,17 @@ module Role
     end
 
     def get_result_request(token)
-      response = @request.get("#{URL}/vyp-request/#{token}")
+      response = @request.get("#{URL}/vyp-request/#{token}", **timeouts)
       parse(response).dig(:t) if response.success?
     end
 
     def get_result_status(token)
-      response = @request.get("#{URL}/vyp-status/#{token}")
+      response = @request.get("#{URL}/vyp-status/#{token}", **timeouts)
       parse(response).dig(:status) if response.success?
     end
 
     def get_result_file(token)
-      response = @request.get("#{URL}/vyp-download/#{token}")
+      response = @request.get("#{URL}/vyp-download/#{token}", **timeouts)
       return unless response.success?
 
       body = response.response_body
@@ -99,6 +99,13 @@ module Role
       {}
     ensure
       output(response.response_body)
+    end
+
+    def timeouts
+      {
+        timeout: 10,
+        connecttimeout: 1,
+      }
     end
 
     def extract_filename(response)
