@@ -29,7 +29,7 @@ class String
   private
 
   def valid_ogrn_checksum?
-    (self[0..(size - 2)].to_i % (size - 2)).digits.first == self[-1].to_i
+    (self[0..(size - 2)].to_i % (size - 2)).to_s[-1] == self[-1]
   end
 
   def valid_inn_checksum?(digits = [], indexes = [], index)
