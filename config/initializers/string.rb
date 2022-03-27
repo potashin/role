@@ -1,10 +1,10 @@
 class String
   def ogrn?
-    match?(/^\d{13}$/)
+    match?(/^\d{13}$/) && valid_ogrn_checksum?
   end
 
   def ogrnip?
-    match?(/^\d{15}$/)
+    match?(/^\d{15}$/) && valid_ogrn_checksum?
   end
 
   def person_inn?
@@ -27,6 +27,10 @@ class String
   end
 
   private
+
+  def valid_ogrn_checksum?
+    (self[0..(size - 2)].to_i % (size - 2)).digits.first == self[-1].to_i
+  end
 
   def valid_inn_checksum?(digits = [], indexes = [], index)
     check_numbers = digits.map.with_index { |item, index| item * indexes[index].to_i }
