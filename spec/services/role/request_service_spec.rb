@@ -20,12 +20,6 @@ describe Role::RequestService do
   let(:result_file_headers) {
  { "content-disposition" => "attachment; filename=#{result_file_name}" } }
 
-  it "should raise InvalidArgumentError exception" do
-    expect {
-      described_class.new("0").call
-    }.to(raise_error(described_class::InvalidArgumentError))
-  end
-
   it "should raise RequestTokenError exception" do
     stub_request(:post, url).with(body: "query=#{query}").to_return(status: 500)
 

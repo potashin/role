@@ -23,17 +23,6 @@ describe Role::ExportService do
     expect(notifier).to(receive(:perform).once)
   end
 
-  it "should handle InvalidArgumentError" do
-    allow(service_instance).to(receive(:call).and_raise(service::InvalidArgumentError))
-
-    expect {
-      described_class.new(export, service: service, notifier: notifier).call
-    }.to(change {
-      export.status
-    }.from("new").to("dead")
-        )
-  end
-
   it "should handle RequestTokenError" do
     allow(service_instance).to(receive(:call).and_raise(service::RequestTokenError))
     expect_notification

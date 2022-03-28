@@ -18,8 +18,6 @@ module Role
     end
 
     def call
-      raise InvalidArgumentError.new(@query) unless query_valid?
-
       request_token = get_request_token
       raise RequestTokenError.new(@query) unless request_token
 
@@ -41,10 +39,6 @@ module Role
     end
 
     private
-
-    def query_valid?
-      @query&.company_inn? || @query&.person_inn? || @query&.ogrn? || @query&.ogrnip?
-    end
 
     def result_status_ready?(token, retry_count = 0)
       return true if get_result_status(token) == "ready"

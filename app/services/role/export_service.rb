@@ -12,8 +12,6 @@ module Role
       @export.update(status: :process)
       process
       @export.update(status: :done)
-    rescue @service::InvalidArgumentError
-      @export.update(status: :dead)
     rescue @service::RequestTokenError
       @export.update(status: :new)
       notify(:request_token)
