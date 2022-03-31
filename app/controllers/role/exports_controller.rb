@@ -41,7 +41,7 @@ class Role::ExportsController < Role::ApplicationController
   def index
     exports = Role::Export.where(entity_type: params[:entity_type], entity_id: params[:entity_id])
 
-    render_as_json(exports.map(&method(:item_as_json)))
+    render(json: Role::ExportSerializer.new(exports).serializable_hash, status: 200)
   end
 
   swagger_path "/role/export/{entity_id}/{id}" do
@@ -80,7 +80,10 @@ class Role::ExportsController < Role::ApplicationController
   def show
     export = Role::Export.find_by(id: params[:id])
 
-    export ? render_as_json(item_as_json(export)) : head(404)
+    export ? render(
+      json: Role::ExportSerializer.new(export).serializable_hash,
+      status: 200
+    ) : head(404)
   end
 
   swagger_path "/role/export/{identifier}/" do
@@ -122,28 +125,12 @@ class Role::ExportsController < Role::ApplicationController
 
     Role::ExportJob.perform_async(export.id)
 
-    render_as_json(item_as_json(export), status: 201)
+    render(json: Role::ExportSerializer.new(export).serializable_hash, status: 201)
   end
 
   private
 
   def export_params
     params.require(:data).require(:attributes).permit(:entity_type, :entity_id)
-  end
-
-  def item_as_json(item)
-    {
-      id: item.id,
-      type: type(item),
-      attributes: {
-        entity_type: item.entity_type,
-        entity_id: item.entity_id,
-        status: item.status,
-        date: l(item.created_at.to_date),
-      },
-      links: {
-        # export: download_zeus_reports_egrul_path(item.id)
-      }
-    }
   end
 end

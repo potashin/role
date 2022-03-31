@@ -3,6 +3,7 @@ require "oj"
 require "activestorage/validator"
 require "sidekiq"
 require "swagger/blocks"
+require "jsonapi/serializer"
 
 module Role
   class Engine < ::Rails::Engine

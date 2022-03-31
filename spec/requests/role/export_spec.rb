@@ -16,16 +16,14 @@ describe "/role/exports/:entity_id", type: :request do
     expect(item).to(
       include(
         "type" => "role/exports",
-        "id" => be_a(Integer),
+        "id" => be_a(String),
         "attributes" => include(
           "entity_id" => be_a(String),
           "entity_type" => be_a(String),
           "status" => be_a(String),
           "date" => be_a(String),
         ),
-        "links" => include(
-          # "export" => be_a(String),
-        )
+        # "links" => {}
       )
     )
   end
