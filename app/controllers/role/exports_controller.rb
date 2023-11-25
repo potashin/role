@@ -14,19 +14,19 @@ class Role::ExportsController < Role::ApplicationController
     end
   end
 
-  swagger_path "/role/export/{entity_id}" do
+  swagger_path '/role/export/{entity_id}' do
     operation :get do
-      key :tags, ["Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП"]
+      key :tags, ['Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП']
       parameter do
         key :name, :entity_id
-        key :description, "ОГРН/ОГРНИП/ИНН"
+        key :description, 'ОГРН/ОГРНИП/ИНН'
         key :in, :path
         key :required, true
         key :type, :integer
       end
 
       response 200 do
-        key :description, "OK"
+        key :description, 'OK'
         schema do
           property :data, type: :array do
             items type: :object do
@@ -41,29 +41,29 @@ class Role::ExportsController < Role::ApplicationController
   def index
     exports = Role::Export.where(entity_type: params[:entity_type], entity_id: params[:entity_id])
 
-    render(json: Role::ExportSerializer.new(exports).serializable_hash, status: 200)
+    render(json: {data: exports.map(&Role::ExportSerializer.method(:call))}, status: 200)
   end
 
-  swagger_path "/role/export/{entity_id}/{id}" do
+  swagger_path '/role/export/{entity_id}/{id}' do
     operation :get do
-      key :tags, ["Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП"]
+      key :tags, ['Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП']
       parameter do
         key :name, :entity_id
-        key :description, "ОГРН/ОГРНИП"
+        key :description, 'ОГРН/ОГРНИП'
         key :in, :path
         key :required, true
         key :type, :integer
       end
       parameter do
         key :name, :id
-        key :description, "Идентификатор выгрузки"
+        key :description, 'Идентификатор выгрузки'
         key :in, :path
         key :required, true
         key :type, :integer
       end
 
       response 200 do
-        key :description, "OK"
+        key :description, 'OK'
         schema do
           property :data, type: :object do
             key :'$ref', :ExportItem
@@ -72,7 +72,7 @@ class Role::ExportsController < Role::ApplicationController
       end
 
       response 404 do
-        key :description, "Not Found"
+        key :description, 'Not Found'
       end
     end
   end
@@ -81,31 +81,31 @@ class Role::ExportsController < Role::ApplicationController
     export = Role::Export.find_by(id: params[:id])
 
     export ? render(
-      json: Role::ExportSerializer.new(export).serializable_hash,
+      json: {data: Role::ExportSerializer.call(export)},
       status: 200
     ) : head(404)
   end
 
-  swagger_path "/role/export/{identifier}/" do
+  swagger_path '/role/export/{identifier}/' do
     operation :post do
-      key :tags, ["Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП"]
+      key :tags, ['Сервис «Федеральная налоговая служба» – ЕГРЮЛ/ЕГРИП']
       parameter do
         key :name, :entity_id
-        key :description, "ОГРН/ОГРНИП/ИНН"
+        key :description, 'ОГРН/ОГРНИП/ИНН'
         key :in, :path
         key :required, true
         key :type, :integer
       end
       parameter do
         key :name, :entity_type
-        key :description, "Тип ФЛ/ЮЛ"
+        key :description, 'Тип ФЛ/ЮЛ'
         key :in, :body
         key :required, true
         key :type, :string
       end
 
       response 201 do
-        key :description, "OK"
+        key :description, 'OK'
         schema do
           property :data, type: :object do
             key :'$ref', :ExportItem
@@ -114,18 +114,18 @@ class Role::ExportsController < Role::ApplicationController
       end
 
       response 422 do
-        key :description, "Unprocessable Entity"
+        key :description, 'Unprocessable Entity'
       end
     end
   end
 
   def create
-    export = Role::Export.create(**export_params, status: :new)
+    export = Role::Export.create(**export_params)
     return render_errors_as_json(export) unless export.valid?
 
     Role::ExportJob.perform_async(export.id)
 
-    render(json: Role::ExportSerializer.new(export).serializable_hash, status: 201)
+    render(json: {data: Role::ExportSerializer.call(export)}, status: 201)
   end
 
   private

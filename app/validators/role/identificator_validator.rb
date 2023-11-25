@@ -4,9 +4,9 @@ module Role
       if record.entity_id.blank?
         record.errors.add(:entity_id, :blank)
       elsif record.person? && !person_id?(record.entity_id)
-        record.errors.add(:entity_id, "Person ID is not a valid OGRNIP/INN")
+        record.errors.add(:entity_id, 'Person ID is not a valid OGRNIP/INN')
       elsif record.company? && !company_id?(record.entity_id)
-        record.errors.add(:entity_id, "Company ID is not a valid OGRN/INN")
+        record.errors.add(:entity_id, 'Company ID is not a valid OGRN/INN')
       end
     end
 
@@ -60,7 +60,7 @@ module Role
       check_number == digits[index]
     end
 
-    def identifier_to_digits(str, size)
+    def identifier_to_digits(str, _size)
       digits = str.to_i.digits.reverse
       digits.size < str.size ? digits.unshift(0) : digits
     end

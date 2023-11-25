@@ -9,42 +9,39 @@ module Role
     end
 
     def call
-      @export.update(status: :process)
+      @export.update(status: 'active')
       process
-      @export.update(status: :done)
+      @export.update(status: 'succeeded')
     rescue @service::RequestTokenError
-      @export.update(status: :new)
+      @export.update(status: 'created')
       notify(:request_token)
     rescue @service::EmptyResultRequestError
-      @export.update(status: :dead)
+      # NOTE: add error_type
+      @export.update(status: 'failed')
       notify(:empty_result_request)
     rescue @service::ResultRequestError
-      @export.update(status: :new)
+      @export.update(status: 'created')
       notify(:result_requst)
     rescue @service::ResultStatusTimeoutError
-      @export.update(status: :new)
+      @export.update(status: 'created')
       notify(:result_status_timeout)
     rescue @service::ResultFileError
-      @export.update(status: :new)
+      @export.update(status: 'created')
       notify(:result_file)
     rescue @service::ResultTokenError
-      @export.update(status: :new)
+      @export.update(status: 'created')
       notify(:result_token)
     rescue ResultFileTypeError
-      @export.update(document: nil, status: :new)
+      @export.update(document: nil, status: 'created')
       notify(:result_file_type)
     rescue
       notify(:unknown)
-      @export.update(status: :error)
+      @export.update(status: 'failed')
     ensure
-      @export.update(status: :new) if process?
+      @export.update(status: 'created') if @export.active?
     end
 
     private
-
-    def process?
-      @export.status == "process"
-    end
 
     def process
       document = @service.new(@export.entity_id).call
@@ -62,12 +59,12 @@ module Role
 
     def notify(t_error)
       message = I18n.t("services.egrul_export_service.errors.#{t_error}", data: datastamp)
-      @notifier&.perform(tag: :egrul, message: message)
+      @notifier&.perform(tag: :egrul, message:)
     end
 
     def create_tmp_file(string_io:, path:)
-      path = Rails.root.join("tmp", path)
-      File.open(path, "wb") { |file| file.write(string_io) }
+      path = Rails.root.join('tmp', path)
+      File.open(path, 'wb') { |file| file.write(string_io) }
       yield(File.new(path)) if block_given?
       File.delete(path) if File.exist?(path)
     end

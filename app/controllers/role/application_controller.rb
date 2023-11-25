@@ -11,7 +11,7 @@ module Role
     include Swagger::Blocks
 
     def render_as_json(data, meta: {}, status: 200)
-      render(json: { meta: meta, data: data }, status: status)
+      render(json: {meta:, data:}, status:)
     end
 
     def render_errors_as_json(item, status: 422)
@@ -24,16 +24,16 @@ module Role
             }
           }
         },
-        status: status
+        status:
       )
     end
 
     def render_custom_errors_as_json(*collection, status: 422)
       render(
         json: {
-          errors: collection.map { |message| { title: message } }
+          errors: collection.map { |message| {title: message} }
         },
-        status: status
+        status:
       )
     end
 

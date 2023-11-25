@@ -1,6 +1,6 @@
 module Role
   class RequestService
-    URL = "https://egrul.nalog.ru"
+    URL = 'https://egrul.nalog.ru'
     MAX_RETRY_COUNT = 5
 
     class InvalidArgumentError < StandardError; end
@@ -35,13 +35,13 @@ module Role
 
       raise ResultFileError.new unless result_file
 
-      return result_file
+      result_file
     end
 
     private
 
     def result_status_ready?(token, retry_count = 0)
-      return true if get_result_status(token) == "ready"
+      return true if get_result_status(token) == 'ready'
 
       retry_count += 1
       timeout = interval(retry_count)
@@ -53,7 +53,7 @@ module Role
     end
 
     def get_request_token
-      response = @request.post(URL, body: { query: @query })
+      response = @request.post(URL, body: {query: @query})
       parse(response).dig(:t) if response.success?
     end
 
@@ -84,7 +84,7 @@ module Role
       body = response.response_body
       name = "#{extract_filename(response)}.pdf"
 
-      OpenStruct.new(body: body, name: name)
+      OpenStruct.new(body:, name:)
     end
 
     def parse(response)
@@ -103,7 +103,7 @@ module Role
     end
 
     def extract_filename(response)
-      response.headers["content-disposition"][/filename=(.*?).pdf/m, 1]
+      response.headers['content-disposition'][/filename=(.*?).pdf/m, 1]
     end
 
     def output(*messages)

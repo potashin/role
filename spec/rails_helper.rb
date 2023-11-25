@@ -1,16 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require "spec_helper"
-require "pry-rails"
-ENV["RAILS_ENV"] ||= "test"
-require File.expand_path("dummy/config/environment", __dir__)
+require 'spec_helper'
+require 'pry-rails'
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('dummy/config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
-require "rspec/rails"
+abort('The Rails environment is running in production mode!') if Rails.env.production?
+require 'rspec/rails'
 
-require "factory_bot_rails"
-FactoryBot.definition_file_paths << File.join(File.dirname(__FILE__), "factories")
+require 'factory_bot_rails'
+FactoryBot.definition_file_paths << File.join(File.dirname(__FILE__), 'factories')
 
-require "webmock/rspec"
+require 'webmock/rspec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -39,8 +39,10 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.file_fixture_path = "spec/fixtures/role"
+  config.fixture_paths = [
+    "#{::Rails.root}/spec/fixtures"
+  ]
+  config.file_fixture_path = 'spec/fixtures/role'
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

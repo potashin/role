@@ -2,18 +2,22 @@ module Role
   class Export < ApplicationRecord
     include ActiveModel::Validations
 
-    validates_with Role::IdentificatorValidator
-
     has_one_attached :document
 
-    validates :document, blob: { content_type: %w[application/pdf], size_range: 1..(5.megabytes) }
+    enum :status,
+         {
+           created: 'created',
+           active: 'active',
+           failed: 'failed',
+           succeeded: 'succeeded',
+           dead: 'dead'
+         },
+         validate: true
 
-    STATUS = %w[new process error dead done]
-    validates :status, inclusion: { in: STATUS }, presence: true
+    enum :entity_type, {person: 'person', company: 'company'}
 
-    enum entity_type: {
-      person: 0,
-      company: 1,
-    }
+    validates_with Role::IdentificatorValidator
+    validates :document, blob: {content_type: %w[application/pdf], size_range: 1..(5.megabytes)}
+    validates :status, inclusion: {in: Role::Export.statuses.keys}, presence: true
   end
 end

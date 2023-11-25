@@ -95,7 +95,7 @@ RSpec.configure do |config|
 =end
 end
 
-require "rspec-sidekiq"
+require 'rspec-sidekiq'
 
 RSpec::Sidekiq.configure do |config|
   # Clears all job queues before each example
