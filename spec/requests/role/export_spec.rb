@@ -49,6 +49,11 @@ describe '/role/exports/:entity_id', type: :request do
 
       expect(response.status).to(eq(200))
       expect_data(json.dig('data', 0))
+      expect(json.dig('pagination')).to eq(
+        'page' => 1,
+        'per_page' => 10,
+        'has_more_items' => false
+      )
     end
   end
 

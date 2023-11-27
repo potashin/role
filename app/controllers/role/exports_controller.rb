@@ -41,7 +41,12 @@ class Role::ExportsController < Role::ApplicationController
   def index
     exports = Role::Export.where(entity_type: params[:entity_type], entity_id: params[:entity_id])
 
-    render(json: {data: exports.map(&Role::ExportSerializer.method(:call))}, status: 200)
+    serialized_data = Role::CollectionSerializer.new(pagination_params).call(
+      serializer_class: Role::ExportSerializer,
+      relation: exports
+    )
+
+    render(json: serialized_data, status: 200)
   end
 
   swagger_path '/role/export/{entity_id}/{id}' do
@@ -129,6 +134,10 @@ class Role::ExportsController < Role::ApplicationController
   end
 
   private
+
+  def pagination_params
+    params.permit(:page, :per_page)
+  end
 
   def export_params
     params.require(:data).require(:attributes).permit(:entity_type, :entity_id)
