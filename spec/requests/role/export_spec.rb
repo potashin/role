@@ -5,8 +5,8 @@ describe '/role/exports/:entity_id', type: :request do
   let(:url) { root }
   let(:entity_id) { '321144700054708' }
   let(:entity_type) { 'person' }
-  let(:parameters) { {data: {attributes: {entity_id:, entity_type:}}} }
-  let!(:export) { create(:export, **parameters.dig(:data, :attributes)) }
+  let(:parameters) { {entity_id:, entity_type:} }
+  let!(:export) { create(:export, **parameters) }
 
   def json
     Oj.load(response.body)
@@ -29,69 +29,86 @@ describe '/role/exports/:entity_id', type: :request do
     )
   end
 
-  def expect_json_errors
-    errors = json['errors']
-
-    expect(errors).not_to(be_empty)
-
-    yield(errors) if block_given?
-
-    expect(errors).to(
-      all(
-        include('title' => be_a(String))
-      )
-    )
-  end
-
   context 'GET' do
-    it 'should have status 200 (OK)' do
-      get(url, params: parameters.dig(:data, :attributes))
+    subject { get(url, params:) }
 
-      expect(response.status).to(eq(200))
-      expect_data(json.dig('data', 0))
-      expect(json.dig('pagination')).to eq(
-        'page' => 1,
-        'per_page' => 10,
-        'has_more_items' => false
-      )
+    context 'when status 200 (OK)' do
+      let(:params) { {entity_id:, entity_type:} }
+
+      specify do
+        subject
+
+        expect(response.status).to(eq(200))
+        expect_data(json.dig('data', 0))
+        expect(json.dig('pagination')).to eq(
+          'page' => 1,
+          'per_page' => 10,
+          'has_more_items' => false
+        )
+      end
     end
   end
 
   context 'POST' do
-    it 'should have status 201 (Created)' do
-      expect(Role::ExportJob).to(
-        receive(:perform_async) { |arg|
-          expect(arg).to(eq(Role::Export.last&.id))
-        }.once
-      )
+    subject { post(url, params:) }
 
-      post(url, params: parameters)
+    context 'when status 201 (Created)' do
+      let(:params) { {entity_id:, entity_type:} }
 
-      expect(response.status).to(eq(201))
-      expect_data(json.dig('data'))
+      specify do
+        expect(Role::ExportJob).to(
+          receive(:perform_async) { |arg|
+            expect(arg).to(eq(Role::Export.last&.id))
+          }.once
+        )
+
+        subject
+
+        expect(response.status).to(eq(201))
+        expect_data(json.dig('data'))
+      end
     end
 
-    it 'should have status 422 (Unprocessable Entity)' do
-      post(url)
+    context 'when status 422 (Unprocessable Entity)' do
+      let(:params) { {} }
 
-      expect(response.status).to(eq(422))
-      expect_json_errors
+      specify do
+        subject
+
+        expect(response.status).to(eq(422))
+        expect(json['errors'][0]).to eq(
+          'attribute' => 'entity_type',
+          'message' => 'Entity type is not included in the list',
+          'options' => [{'type' => 'value', 'value' => nil}],
+          'type' => 'inclusion'
+        )
+      end
     end
   end
 
   context ':id' do
     context 'GET' do
-      it 'should have status 200 (OK)' do
-        get("#{url}/#{export.id}")
+      subject { get("#{url}/#{id}") }
 
-        expect(response.status).to(eq(200))
-        expect_data(json.dig('data'))
+      context 'when status 200 (OK)' do
+        let(:id) { export.id }
+
+        specify do
+          subject
+
+          expect(response.status).to(eq(200))
+          expect_data(json.dig('data'))
+        end
       end
 
-      it 'should have status 404 (Not Found)' do
-        get("#{url}/0")
+      context 'when status 404 (Not Found)' do
+        let(:id) { 0 }
 
-        expect(response.status).to(eq(404))
+        specify do
+          subject
+
+          expect(response.status).to(eq(404))
+        end
       end
     end
   end

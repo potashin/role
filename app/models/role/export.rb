@@ -1,7 +1,5 @@
 module Role
   class Export < ApplicationRecord
-    include ActiveModel::Validations
-
     has_one_attached :document
 
     enum :status,
@@ -12,12 +10,9 @@ module Role
            succeeded: 'succeeded',
            dead: 'dead'
          },
-         validate: true
+         validate: true,
+         _default: 'created'
 
-    enum :entity_type, {person: 'person', company: 'company'}
-
-    validates_with Role::IdentificatorValidator
-    validates :document, blob: {content_type: %w[application/pdf], size_range: 1..(5.megabytes)}
-    validates :status, inclusion: {in: Role::Export.statuses.keys}, presence: true
+    enum :entity_type, {person: 'person', company: 'company'}, validate: true
   end
 end

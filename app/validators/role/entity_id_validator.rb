@@ -1,16 +1,27 @@
 module Role
-  class IdentificatorValidator < ActiveModel::Validator
-    def validate(record)
-      if record.entity_id.blank?
-        record.errors.add(:entity_id, :blank)
-      elsif record.person? && !person_id?(record.entity_id)
-        record.errors.add(:entity_id, 'Person ID is not a valid OGRNIP/INN')
-      elsif record.company? && !company_id?(record.entity_id)
-        record.errors.add(:entity_id, 'Company ID is not a valid OGRN/INN')
+  class EntityIdValidator < ActiveModel::EachValidator
+    def validate_each(form, attribute, value)
+      if value.blank?
+        form.errors.add(attribute, :blank)
+      else
+        validate_by_entity_type(form, attribute, value)
       end
     end
 
     private
+
+    def validate_by_entity_type(form, attribute, value)
+      case form.entity_type
+      when 'person'
+        return if person_id?(value)
+
+        form.errors.add(attribute, :invalid, message: 'Person ID is not a valid OGRNIP/INN')
+      when 'company'
+        return if company_id?(value)
+
+        form.errors.add(attribute, :invalid, message: 'Company ID is not a valid OGRN/INN')
+      end
+    end
 
     def person_id?(entity_id)
       ogrnip?(entity_id) || person_inn?(entity_id)
@@ -60,9 +71,9 @@ module Role
       check_number == digits[index]
     end
 
-    def identifier_to_digits(str, _size)
+    def identifier_to_digits(str, size)
       digits = str.to_i.digits.reverse
-      digits.size < str.size ? digits.unshift(0) : digits
+      digits.size < size ? digits.unshift(0) : digits
     end
   end
 end

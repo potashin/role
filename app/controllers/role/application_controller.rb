@@ -4,28 +4,17 @@ module Role
       render_custom_errors_as_json(exception.full_message)
     end
 
-    rescue_from AbstractController::ActionNotFound do |exception|
-      render_custom_errors_as_json(exception.full_message, status: 404)
+    rescue_from AbstractController::ActionNotFound do
+      render_custom_errors_as_json(exception.full_message)
     end
 
-    include Swagger::Blocks
-
-    def render_as_json(data, meta: {}, status: 200)
-      render(json: {meta:, data:}, status:)
+    rescue_from ActiveRecord::RecordNotFound do
+      head(404)
     end
 
-    def render_errors_as_json(item, status: 422)
-      render(
-        json: {
-          errors: item.errors.map { |error|
-            {
-              field: error.attribute,
-              title: error.message,
-            }
-          }
-        },
-        status:
-      )
+    rescue_from Role::ApplicationForm::Error do |exception|
+      json = Role::ErrorsSerializer.call(exception.form.errors)
+      render(json:, status: 422)
     end
 
     def render_custom_errors_as_json(*collection, status: 422)
@@ -35,10 +24,6 @@ module Role
         },
         status:
       )
-    end
-
-    def type(item)
-      item.class.name.underscore.pluralize
     end
   end
 end

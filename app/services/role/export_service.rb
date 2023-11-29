@@ -46,9 +46,7 @@ module Role
     def process
       document = @service.new(@export.entity_id).call
 
-      create_tmp_file(string_io: document.body, path: document.name) do |file|
-        @export.document.attach(io: file, filename: document.name)
-      end
+      Role::Exports::AttachForm.call(document:)
 
       raise ResultFileTypeError.new unless @export.valid?
     end
@@ -60,13 +58,6 @@ module Role
     def notify(t_error)
       message = I18n.t("services.egrul_export_service.errors.#{t_error}", data: datastamp)
       @notifier&.perform(tag: :egrul, message:)
-    end
-
-    def create_tmp_file(string_io:, path:)
-      path = Rails.root.join('tmp', path)
-      File.open(path, 'wb') { |file| file.write(string_io) }
-      yield(File.new(path)) if block_given?
-      File.delete(path) if File.exist?(path)
     end
   end
 end

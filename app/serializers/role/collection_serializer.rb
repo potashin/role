@@ -3,19 +3,18 @@ module Role
     DEFAULT_PAGE = 1
     DEFAULT_PER_PAGE = 10
     DEFAULT_MAX_PER_PAGE = 50
-    DEFAULT_ROOT = :data
 
     def initialize(params = {})
       self.page = params[:page]
       self.per_page = params[:per_page]
     end
 
-    def call(relation:, serializer_class:, root: DEFAULT_ROOT)
+    def call(relation:, serializer_class:, root: ApplicationSerializer::DEFAULT_ROOT)
       collection = relation.offset(offset).limit(limit).to_a
       has_more_items = collection.size > per_page
 
       collection.pop if has_more_items
-      collection.map! { |item| serializer_class.call(item) }
+      collection.map! { |item| serializer_class.call(item, root: false) }
 
       {
         root => collection,

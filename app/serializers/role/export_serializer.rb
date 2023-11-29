@@ -1,6 +1,8 @@
 module Role
   class ExportSerializer < ApplicationSerializer
-    def call(export)
+    private
+
+    def build(export)
       {
         id: export.id,
         type: 'role_export',
