@@ -37,4 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('rubocop-rspec')
   spec.add_development_dependency('pry-rails')
   spec.add_development_dependency('webmock', '~> 3.14')
+  spec.add_development_dependency('simplecov')
+  spec.add_development_dependency('simplecov-cobertura')
 end
