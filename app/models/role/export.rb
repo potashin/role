@@ -13,6 +13,11 @@ module Role
          validate: true,
          _default: 'created'
 
-    enum :entity_type, {person: 'person', company: 'company'}, validate: true
+    enum :entity_type,
+         {
+           person: 'person',
+           company: 'company'
+         },
+         validate: true
   end
 end

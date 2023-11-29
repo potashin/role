@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe '/role/exports/:entity_id', type: :request do
+describe('Role Exports', type: :request) do
   let(:root) { "/role/exports/#{entity_id}" }
   let(:url) { root }
   let(:entity_id) { '321144700054708' }
