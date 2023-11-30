@@ -1,6 +1,5 @@
 require 'typhoeus'
 require 'oj'
-require 'activestorage/validator'
 require 'sidekiq'
 
 module Role

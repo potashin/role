@@ -31,10 +31,15 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: role_user_development
-          POSTGRES_DB: role_db_test
-          POSTGRES_PASSWORD: password1
-        ports: ["5432:5432"]
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -48,8 +53,8 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: role_user_development
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         run: |
           bin/rails db:setup
 

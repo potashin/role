@@ -2,12 +2,15 @@ module Role
   module Exports
     class AttachForm < ApplicationForm
       CONTENT_TYPES = %w[application/pdf].freeze
-      SIZE_RANGE = (1..(5.megabytes)).freeze
+      MAX_SIZE = 5.megabytes.freeze
 
       delegate :document,
                to: :reflection
 
-      validates :document, blob: {content_type: CONTENT_TYPES, size_range: SIZE_RANGE}
+      # validates :document,
+      #           attached: true,
+      #           content_type: CONTENT_TYPES,
+      #           size: {less_than: MAX_SIZE}
 
       def document=(value)
         create_tmp_file(string_io: value.body, path: value.name) do |file|
