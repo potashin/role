@@ -1,12 +1,19 @@
 module Role
-  class ExportSerializer
-    include JSONAPI::Serializer
+  class ExportSerializer < ApplicationSerializer
+    private
 
-    set_type "role/exports"
-    set_id :id
-    attributes :entity_type, :entity_id, :status
-    attribute(:date) do |item|
-      I18n.l(item.created_at.to_date)
+    def build(export)
+      {
+        id: export.id,
+        type: 'role_export',
+        attributes: {
+          status: export.status,
+          error_type: export.error_type,
+          error_message: export.error_message,
+          entity_type: export.entity_type,
+          created_at: export.created_at
+        }
+      }
     end
   end
 end

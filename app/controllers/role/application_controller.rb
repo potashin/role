@@ -1,44 +1,31 @@
 module Role
   class ApplicationController < ActionController::Base
+    protect_from_forgery(with: :exception)
+
     rescue_from ActionController::ParameterMissing do |exception|
       render_custom_errors_as_json(exception.full_message)
     end
 
-    rescue_from AbstractController::ActionNotFound do |exception|
-      render_custom_errors_as_json(exception.full_message, status: 404)
+    rescue_from AbstractController::ActionNotFound do
+      render_custom_errors_as_json(exception.full_message)
     end
 
-    include Swagger::Blocks
-
-    def render_as_json(data, meta: {}, status: 200)
-      render(json: { meta: meta, data: data }, status: status)
+    rescue_from ActiveRecord::RecordNotFound do
+      head(404)
     end
 
-    def render_errors_as_json(item, status: 422)
-      render(
-        json: {
-          errors: item.errors.map { |error|
-            {
-              field: error.attribute,
-              title: error.message,
-            }
-          }
-        },
-        status: status
-      )
+    rescue_from Role::ApplicationForm::Error do |exception|
+      json = Role::ErrorsSerializer.call(exception.form.errors)
+      render(json:, status: 422)
     end
 
     def render_custom_errors_as_json(*collection, status: 422)
       render(
         json: {
-          errors: collection.map { |message| { title: message } }
+          errors: collection.map { |message| {title: message} }
         },
-        status: status
+        status:
       )
-    end
-
-    def type(item)
-      item.class.name.underscore.pluralize
     end
   end
 end
