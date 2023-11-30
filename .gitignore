@@ -9,4 +9,5 @@
 /spec/dummy/log/*.log
 /spec/dummy/storage/
 /spec/dummy/tmp/
-.env
+.env.local
+.env.test.local

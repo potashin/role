@@ -14,6 +14,7 @@ AllCops:
     - 'spec/dummy/**/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'
     - 'bin/*'
+    - 'Rakefile'
 
 Style/Documentation:
   Enabled: false

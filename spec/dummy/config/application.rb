@@ -17,6 +17,10 @@ require 'action_controller/railtie'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+require 'dotenv/rails'
+Dotenv::Railtie.load
+
 require 'role'
 
 module Dummy
