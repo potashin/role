@@ -1,5 +1,7 @@
 module Role
   class ApplicationController < ActionController::Base
+    protect_from_forgery(with: :exception)
+
     rescue_from ActionController::ParameterMissing do |exception|
       render_custom_errors_as_json(exception.full_message)
     end
