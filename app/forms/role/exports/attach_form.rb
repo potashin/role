@@ -1,7 +1,7 @@
 module Role
   module Exports
     class AttachForm < ApplicationForm
-      # include ActiveStorageValidations
+      include ActiveStorageValidations
 
       CONTENT_TYPES = %w[application/pdf].freeze
       MAX_SIZE = 5.megabytes.freeze
@@ -9,13 +9,13 @@ module Role
       delegate :document,
                to: :reflection
 
-      # validates :document,
-      #           attached: true,
-      #           content_type: CONTENT_TYPES,
-      #           size: {less_than: MAX_SIZE}
+      validates :document,
+                attached: true,
+                content_type: CONTENT_TYPES,
+                size: {less_than: MAX_SIZE}
 
       def document=(value)
-        document.attach(io: value.body, filename: value.name)
+        document.attach(io: value.body, filename: value.name) if value
       end
 
       private
