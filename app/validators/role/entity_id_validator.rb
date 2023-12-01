@@ -13,13 +13,9 @@ module Role
     def validate_by_entity_type(form, attribute, value)
       case form.entity_type
       when 'person'
-        return if person_id?(value)
-
-        form.errors.add(attribute, :invalid, message: 'Person ID is not a valid OGRNIP/INN')
+        form.errors.add(attribute, :invalid_for_person) unless person_id?(value)
       when 'company'
-        return if company_id?(value)
-
-        form.errors.add(attribute, :invalid, message: 'Company ID is not a valid OGRN/INN')
+        form.errors.add(attribute, :invalid_for_company) unless company_id?(value)
       end
     end
 

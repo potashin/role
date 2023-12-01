@@ -40,6 +40,7 @@ module Role
         save_reflection
       end
     rescue => e
+      before_raise_error
       raise_error(e)
     end
 
@@ -47,10 +48,14 @@ module Role
       raise(NotImplementedError)
     end
 
-    def raise_error(exception = nil)
-      errors.add(:base, exception.full_message) if exception
+    def before_raise_error; end
 
-      raise(Error, self)
+    def raise_error(exception = nil)
+      message = exception&.full_message
+
+      errors.add(:base, message:) if exception
+
+      raise(Error.new(self), message)
     end
   end
 end
