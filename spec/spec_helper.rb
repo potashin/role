@@ -15,10 +15,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'active_storage_validations/matchers'
-require 'simplecov'
-require 'simplecov-cobertura'
 
-SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+require 'simplecov'
 SimpleCov.start
 
 RSpec.configure do |config|
