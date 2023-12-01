@@ -64,7 +64,7 @@ Layout/EmptyLinesAroundModuleBody:
 Layout/EndAlignment:
   Enabled: true
   AutoCorrect: true
-  EnforcedStyleAlignWith: variable
+  EnforcedStyleAlignWith: keyword
 
 Style/HashSyntax:
   Enabled: true

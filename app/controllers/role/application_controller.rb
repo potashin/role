@@ -2,6 +2,8 @@ module Role
   class ApplicationController < ActionController::API
     include ActionController::MimeResponds
 
+    wrap_parameters(false)
+
     rescue_from ActionController::ParameterMissing do |exception|
       json = ErrorSerializer.call(:parameter, :missing, message: exception.full_message)
       render(json:, status: 422)
