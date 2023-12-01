@@ -1,6 +1,6 @@
 module Role
   class Export < ApplicationRecord
-    has_one_attached :document
+    has_one_attached :document, dependent: :destroy
 
     enum :status,
          {

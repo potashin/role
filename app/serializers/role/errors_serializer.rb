@@ -7,12 +7,12 @@ module Role
     end
 
     def call(errors)
-      {errors: errors.map(&method(:serialize))}
+      {errors: errors.map(&method(:build))}
     end
 
     private
 
-    def serialize(error)
+    def build(error)
       ErrorSerializer.call(
         error.attribute,
         error.type,

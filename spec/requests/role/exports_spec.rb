@@ -6,7 +6,7 @@ describe('Role Exports', type: :request) do
   let(:entity_id) { '321144700054708' }
   let(:entity_type) { 'person' }
   let(:parameters) { {entity_id:, entity_type:} }
-  let!(:export) { create(:export, **parameters) }
+  let!(:export) { create(:export, :with_document, **parameters) }
 
   def json
     Oj.load(response.body)
@@ -88,26 +88,61 @@ describe('Role Exports', type: :request) do
 
   context ':id' do
     context 'GET' do
-      subject { get("#{url}/#{id}") }
+      let(:format) { nil }
 
-      context 'when status 200 (OK)' do
-        let(:id) { export.id }
+      subject { get("#{url}/#{id}", params: {format:}) }
 
-        specify do
-          subject
+      context 'when json' do
+        let(:format) { :json }
 
-          expect(response.status).to(eq(200))
-          expect_data(json.dig('data'))
+        context 'when status 200 (OK)' do
+          let(:id) { export.id }
+
+          specify do
+            subject
+
+            expect(response.status).to(eq(200))
+            expect_data(json.dig('data'))
+          end
+        end
+
+        context 'when status 404 (Not Found)' do
+          let(:id) { 0 }
+
+          specify do
+            subject
+
+            expect(response.status).to(eq(404))
+          end
         end
       end
 
-      context 'when status 404 (Not Found)' do
-        let(:id) { 0 }
+      context 'when pdf' do
+        let(:format) { :pdf }
 
-        specify do
-          subject
+        context 'when status 200 (OK)' do
+          let(:id) { export.id }
 
-          expect(response.status).to(eq(404))
+          specify do
+            subject
+
+            expect(response.status).to(eq(200))
+            expect(response.headers).to include(
+              'Content-Type' => 'application/pdf',
+              'Content-Disposition' =>
+                "inline; filename=\"sample.pdf\"; filename*=UTF-8''sample.pdf"
+            )
+          end
+        end
+
+        context 'when status 404 (Not Found)' do
+          let(:id) { 0 }
+
+          specify do
+            subject
+
+            expect(response.status).to(eq(404))
+          end
         end
       end
     end
