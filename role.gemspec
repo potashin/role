@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('webmock', '~> 3.14')
   spec.add_development_dependency('simplecov')
   spec.add_development_dependency('brakeman')
+  spec.add_development_dependency('annotate')
 end
