@@ -19,5 +19,7 @@ module Role
            company: 'company'
          },
          validate: true
+
+    scope :today, -> { where(created_at: Date.today.beginning_of_day..) }
   end
 end

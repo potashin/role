@@ -6,7 +6,8 @@ describe('Role Exports', type: :request) do
   let(:entity_id) { '321144700054708' }
   let(:entity_type) { 'person' }
   let(:parameters) { {entity_id:, entity_type:} }
-  let!(:export) { create(:export, :with_document, **parameters) }
+  let(:created_at) { 2.days.ago }
+  let!(:export) { create(:export, :with_document, **parameters, created_at:) }
   let(:expected) do
     {
       'id' => export.id,
@@ -32,7 +33,7 @@ describe('Role Exports', type: :request) do
     subject { get(url, params:) }
 
     context 'when status 200 (OK)' do
-      let(:params) { {entity_id:, entity_type:, per_page: 10, page: 1} }
+      let(:params) { {**parameters, per_page: 10, page: 1} }
 
       specify do
         subject
@@ -58,17 +59,33 @@ describe('Role Exports', type: :request) do
       allow(form_class).to receive(:new).and_return(form)
     end
 
+    context 'when status 200 (Success)' do
+      let(:params) { {entity_id:, entity_type:} }
+      let(:created_at) { 1.minute.ago }
+
+      specify do
+        expect(form).not_to receive(:call)
+
+        expect(Role::ExportWorker).not_to receive(:perform_async)
+
+        subject
+
+        expect(response.status).to(eq(200))
+        expect(json.dig('data')).to eq(expected)
+      end
+    end
+
     context 'when status 201 (Created)' do
       let(:params) { {entity_id:, entity_type:} }
 
       before do
-        expect(form).to receive(:reflection).and_return(export).twice
+        expect(form).to receive(:reflection).and_return(export).once
       end
 
       specify do
         expect(form).to receive(:call).and_return(form).once
 
-        expect(Role::ExportJob).to receive(:perform_async).with(export.id).once
+        expect(Role::ExportWorker).to receive(:perform_async).with(export.id).once
 
         subject
 
