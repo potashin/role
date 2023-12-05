@@ -6,7 +6,7 @@ FactoryBot.define do
     trait(:with_document) do
       after(:build) do |export|
         export.document.attach(
-          io: File.open(File.join(RSpec.configuration.file_fixture_path, 'sample.pdf'), 'rb'),
+          io: Rack::Test::UploadedFile.new('spec/fixtures/role/sample.pdf', 'application/pdf'),
           filename: 'sample.pdf',
           content_type: 'application/pdf'
         )
