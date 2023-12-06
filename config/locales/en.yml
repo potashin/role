@@ -1,25 +1,20 @@
 en:
-  service:
-    role:
-      request:
-        errors:
-          request_token: "Ошибка получения токена запроса (%{data})"
-          empty_result_request: Пустой результат запроса, отсутствует выгрузка (%{data})а
-          result_requst: "Ошибка запроса на получение выгрузки (%{data})"
-          result_status_timeout: "Превышено ожидание обработки статуса выгрузки (%{data})"
-          result_file: "Ошибка при получении файла выгрузки (%{data})"
-          result_token: "Ошибка получения токена выгрузки (%{data})"
-          result_file_type: "Ошибка с типом файла выгрузки (%{data})"
-          unknown: "Неизвестная ошибка (%{data})"
   activerecord:
     errors:
       models:
-        role:
-          export:
-            status:
-              new: "Новый"
-              waiting: "В ожидании на обработку"
-              process: "В процессе"
-              dead: "dead"
-              error: "Ошибка"
-              done: "Готово"
+        role/export:
+          attributes:
+            entity_id:
+              invalid_for_person: Person ID is not a valid OGRNIP/INN
+              invalid_for_company: Company ID is not a valid OGRN/INN
+  services:
+    egrul_export_service:
+      errors:
+        request_token: "Ошибка получения токена запроса (%{data})"
+        empty_result_request: Пустой результат запроса, отсутствует выгрузка (%{data})а
+        result_requst: "Ошибка запроса на получение выгрузки (%{data})"
+        result_status_timeout: "Превышено ожидание обработки статуса выгрузки (%{data})"
+        result_file: "Ошибка при получении файла выгрузки (%{data})"
+        result_token: "Ошибка получения токена выгрузки (%{data})"
+        result_file_type: "Ошибка с типом файла выгрузки (%{data})"
+        unknown: "Неизвестная ошибка (%{data})"

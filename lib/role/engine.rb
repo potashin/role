@@ -1,6 +1,7 @@
-require 'typhoeus'
-require 'oj'
-require 'sidekiq'
+require('typhoeus')
+require('oj')
+require('sidekiq')
+require('active_storage_validations')
 
 module Role
   class Engine < ::Rails::Engine

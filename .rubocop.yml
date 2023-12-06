@@ -11,6 +11,7 @@ AllCops:
   Exclude:
     - '**/templates/**/*'
     - '**/vendor/**/*'
+    - 'spec/dummy/**/*'
     - 'spec/dummy/**/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'
     - 'bin/*'
@@ -64,7 +65,7 @@ Layout/EmptyLinesAroundModuleBody:
 Layout/EndAlignment:
   Enabled: true
   AutoCorrect: true
-  EnforcedStyleAlignWith: variable
+  EnforcedStyleAlignWith: keyword
 
 Style/HashSyntax:
   Enabled: true

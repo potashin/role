@@ -3,7 +3,7 @@ require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
 module Role
-  RSpec.describe(ExportJob, type: :job) do
+  RSpec.describe(ExportWorker, type: :job) do
     let(:export) { create(:export, status: 'created', entity_type: 'company') }
     let(:service_class) { Role::ExportService }
     let(:service) { instance_double(service_class) }

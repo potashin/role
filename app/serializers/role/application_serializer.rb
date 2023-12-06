@@ -21,5 +21,9 @@ module Role
     def build_date(item)
       I18n.l(item.to_date)
     end
+
+    def url_helpers
+      Role::Engine.routes.url_helpers
+    end
   end
 end

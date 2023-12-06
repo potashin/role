@@ -1,31 +1,27 @@
 module Role
-  class ApplicationController < ActionController::Base
-    protect_from_forgery(with: :exception)
+  class ApplicationController < ActionController::API
+    include ActionController::MimeResponds
+
+    wrap_parameters(false)
 
     rescue_from ActionController::ParameterMissing do |exception|
-      render_custom_errors_as_json(exception.full_message)
+      json = ErrorSerializer.call(:parameter, :missing, message: exception.full_message)
+      render(json:, status: :unprocessable_entity)
     end
 
-    rescue_from AbstractController::ActionNotFound do
-      render_custom_errors_as_json(exception.full_message)
+    rescue_from AbstractController::ActionNotFound do |exception|
+      json = ErrorSerializer.call(:action, :not_found, message: exception.full_message)
+      render(json:, status: :not_found)
     end
 
-    rescue_from ActiveRecord::RecordNotFound do
-      head(404)
+    rescue_from ActiveRecord::RecordNotFound do |exception|
+      json = ErrorSerializer.call(:record, :not_found, message: exception.full_message)
+      render(json:, status: :not_found)
     end
 
     rescue_from Role::ApplicationForm::Error do |exception|
       json = Role::ErrorsSerializer.call(exception.form.errors)
-      render(json:, status: 422)
-    end
-
-    def render_custom_errors_as_json(*collection, status: 422)
-      render(
-        json: {
-          errors: collection.map { |message| {title: message} }
-        },
-        status:
-      )
+      render(json:, status: :unprocessable_entity)
     end
   end
 end

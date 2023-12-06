@@ -11,7 +11,14 @@ module Role
           error_type: export.error_type,
           error_message: export.error_message,
           entity_type: export.entity_type,
-          created_at: export.created_at
+          created_at: build_date(export.created_at)
+        },
+        links: {
+          download: url_helpers.export_path(
+            id: export.id,
+            entity_id: export.entity_id,
+            format: :pdf
+          )
         }
       }
     end
