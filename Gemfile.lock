@@ -122,6 +122,8 @@ GEM
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
     ffi (1.16.3)
+    freezolite (0.4.0)
+      require-hooks (~> 0.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.0.1)
@@ -157,11 +159,7 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.15.5-aarch64-linux)
-      racc (~> 1.4)
     nokogiri (1.15.5-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
     oj (3.16.1)
     parallel (1.23.0)
@@ -225,6 +223,7 @@ GEM
     regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
+    require-hooks (0.2.0)
     rexml (3.2.6)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
@@ -305,9 +304,7 @@ GEM
     zeitwerk (2.6.12)
 
 PLATFORMS
-  aarch64-linux
   arm64-darwin-23
-  x86_64-linux
 
 DEPENDENCIES
   active_storage_validations (~> 1.1.1)
@@ -319,6 +316,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   factory_bot_rails
+  freezolite
   oj (~> 3.13)
   pg
   pry-rails
@@ -333,9 +331,6 @@ DEPENDENCIES
   simplecov
   typhoeus (~> 1.4)
   webmock (~> 3.14)
-
-RUBY VERSION
-   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.22
