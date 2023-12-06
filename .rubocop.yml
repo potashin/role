@@ -11,11 +11,11 @@ AllCops:
   Exclude:
     - '**/templates/**/*'
     - '**/vendor/**/*'
-    - 'spec/dummy/**/*'
-    - 'spec/dummy/**/**/*'
-    - 'actionpack/lib/action_dispatch/journey/parser.rb'
     - 'bin/*'
     - 'Rakefile'
+    - 'config.ru'
+    - 'config/boot.rb'
+    - 'db/schema.rb'
 
 Style/Documentation:
   Enabled: false
@@ -46,6 +46,7 @@ Lint/UnusedMethodArgument:
 
 Layout/LineLength:
   Max: 100
+  AllowedPatterns: ['\A\s*#\s']
 
 Style/AndOr:
   Enabled: true

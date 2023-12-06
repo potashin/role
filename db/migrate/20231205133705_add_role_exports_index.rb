@@ -3,7 +3,7 @@ class AddRoleExportsIndex < ActiveRecord::Migration[7.1]
 
   def change
     add_index(
-      :role_exports,
+      :exports,
       %i[entity_id entity_type],
       algorithm: :concurrently,
       if_not_exists: true

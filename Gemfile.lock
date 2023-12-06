@@ -1,14 +1,3 @@
-PATH
-  remote: .
-  specs:
-    role (0.1.0)
-      active_storage_validations (~> 1.1.1)
-      activestorage (~> 7.0)
-      oj (~> 3.13)
-      rails (>= 7.0.2.3)
-      sidekiq (~> 6.4)
-      typhoeus (~> 1.4)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -99,7 +88,9 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bigdecimal (3.1.4)
-    brakeman (6.0.1)
+    bootsnap (1.17.0)
+      msgpack (~> 1.2)
+    brakeman (6.1.0)
     builder (3.2.4)
     bundler-audit (0.9.1)
       bundler (>= 1.2.0, < 3)
@@ -111,6 +102,9 @@ GEM
       rexml
     crass (1.0.6)
     date (3.3.4)
+    debug (1.8.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     diff-lcs (1.5.0)
     docile (1.4.0)
     dotenv (2.8.1)
@@ -134,10 +128,10 @@ GEM
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
-    irb (1.9.1)
+    irb (1.10.1)
       rdoc
       reline (>= 0.3.8)
-    json (2.6.3)
+    json (2.7.1)
     language_server-protocol (3.17.0.3)
     loofah (2.22.0)
       crass (~> 1.0.2)
@@ -151,6 +145,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     minitest (5.20.0)
+    msgpack (1.7.2)
     mutex_m (0.2.0)
     net-imap (0.4.7)
       date
@@ -161,10 +156,10 @@ GEM
       timeout
     net-smtp (0.4.0)
       net-protocol
-    nio4r (2.6.1)
-    nokogiri (1.15.5-arm64-darwin)
+    nio4r (2.7.0)
+    nokogiri (1.15.5-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-darwin)
+    nokogiri (1.15.5-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
@@ -182,9 +177,11 @@ GEM
     psych (5.1.1.1)
       stringio
     public_suffix (5.0.4)
+    puma (6.4.0)
+      nio4r (~> 2.0)
     racc (1.7.3)
     rack (2.2.8)
-    rack-session (1.0.1)
+    rack-session (1.0.2)
       rack (< 3)
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -222,10 +219,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.1.0)
-    rdoc (6.6.0)
+    rdoc (6.6.1)
       psych (>= 4.0.0)
     redis (4.8.1)
-    regexp_parser (2.8.2)
+    regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
     rexml (3.2.6)
@@ -251,7 +248,7 @@ GEM
       rspec-mocks (~> 3.0)
       sidekiq (>= 5, < 8)
     rspec-support (3.12.1)
-    rubocop (1.57.2)
+    rubocop (1.58.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -259,7 +256,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.28.1, < 2.0)
+      rubocop-ast (>= 1.30.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
@@ -289,13 +286,6 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sprockets (4.2.1)
-      concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      sprockets (>= 3.0.0)
     stringio (3.1.0)
     thor (1.3.0)
     timeout (0.4.1)
@@ -315,28 +305,37 @@ GEM
     zeitwerk (2.6.12)
 
 PLATFORMS
-  arm64-darwin-21
+  aarch64-linux
   arm64-darwin-23
-  x86_64-darwin-20
   x86_64-linux
 
 DEPENDENCIES
+  active_storage_validations (~> 1.1.1)
+  activestorage (~> 7.0)
   annotate
+  bootsnap
   brakeman
   bundler-audit
+  debug
   dotenv-rails
   factory_bot_rails
+  oj (~> 3.13)
   pg
   pry-rails
-  role!
+  puma (>= 5.0)
+  rails (~> 7.1.2)
   rspec-rails
   rspec-sidekiq
   rubocop
   rubocop-rails
   rubocop-rspec
+  sidekiq (~> 6.4)
   simplecov
-  sprockets-rails
+  typhoeus (~> 1.4)
   webmock (~> 3.14)
 
+RUBY VERSION
+   ruby 3.2.2p53
+
 BUNDLED WITH
-   2.3.13
+   2.4.22
