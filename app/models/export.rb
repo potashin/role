@@ -31,6 +31,4 @@ class Export < ApplicationRecord
          company: 'company'
        },
        validate: true
-
-  scope :today, -> { where(created_at: Time.current.beginning_of_day..) }
 end

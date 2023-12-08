@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :exports, only: %i[index create show], path: 'exports/:entity_id'
+  resources :exports, only: %i[index create show]
 end

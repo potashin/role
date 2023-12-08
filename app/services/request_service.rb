@@ -2,13 +2,13 @@ class RequestService
   URL = 'https://egrul.nalog.ru'
   MAX_RETRY_COUNT = 5
 
-  class InvalidArgumentError < StandardError; end
-  class RequestTokenError < StandardError; end
-  class ResultTokenError < StandardError; end
-  class EmptyResultRequestError < StandardError; end
-  class ResultRequestError < StandardError; end
-  class ResultStatusTimeoutError < StandardError; end
-  class ResultFileError < StandardError; end
+  class InvalidArgumentError < Exceptions::Base; end
+  class RequestTokenError < Exceptions::Base; end
+  class ResultTokenError < Exceptions::Base; end
+  class EmptyResultRequestError < Exceptions::Base; end
+  class ResultRequestError < Exceptions::Base; end
+  class ResultStatusTimeoutError < Exceptions::Base; end
+  class ResultFileError < Exceptions::Base; end
 
   def initialize(query, debug: false, request: ::Typhoeus)
     @query = query

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe('Exports', type: :request) do
-  let(:root) { "/exports/#{entity_id}" }
+  let(:root) { '/exports' }
   let(:url) { root }
   let(:entity_id) { '321144700054708' }
   let(:entity_type) { 'person' }
@@ -20,7 +20,7 @@ describe('Exports', type: :request) do
         'created_at' => I18n.l(export.created_at.to_date),
       },
       'links' => {
-        'download' => "/exports/321144700054708/#{export.id}.pdf"
+        'download' => "/exports/#{export.id}.pdf"
       }
     }
   end
@@ -33,12 +33,12 @@ describe('Exports', type: :request) do
     subject { get(url, params:) }
 
     context 'when status 200 (OK)' do
-      let(:params) { {**parameters, per_page: 10, page: 1} }
+      let(:params) { {**parameters, per_page: 10, page: 1, sort: '-created_at,status'} }
 
       specify do
         subject
 
-        expect(response.status).to(eq(200))
+        expect(response).to have_http_status(200)
         expect(json.dig('data', 0)).to eq(expected)
         expect(json.dig('pagination')).to eq(
           'page' => 1,
@@ -70,7 +70,7 @@ describe('Exports', type: :request) do
 
         subject
 
-        expect(response.status).to(eq(200))
+        expect(response).to have_http_status(200)
         expect(json.dig('data')).to eq(expected)
       end
     end
@@ -89,7 +89,7 @@ describe('Exports', type: :request) do
 
         subject
 
-        expect(response.status).to(eq(201))
+        expect(response).to have_http_status(201)
         expect(json.dig('data')).to eq(expected)
       end
     end
@@ -117,7 +117,7 @@ describe('Exports', type: :request) do
 
         subject
 
-        expect(response.status).to(eq(422))
+        expect(response).to have_http_status(422)
         expect(json.dig('errors', 0)).to eq(
           'attribute' => 'entity_type',
           'message' => 'Entity type is not included in the list',
@@ -148,7 +148,7 @@ describe('Exports', type: :request) do
           specify do
             subject
 
-            expect(response.status).to(eq(200))
+            expect(response).to have_http_status(200)
             expect(json.dig('data')).to eq(expected)
           end
         end
@@ -159,7 +159,7 @@ describe('Exports', type: :request) do
           specify do
             subject
 
-            expect(response.status).to(eq(404))
+            expect(response).to have_http_status(404)
           end
         end
       end
@@ -173,7 +173,7 @@ describe('Exports', type: :request) do
           specify do
             subject
 
-            expect(response.status).to(eq(200))
+            expect(response).to have_http_status(200)
             expect(response.headers).to include(
               'Content-Type' => 'application/pdf',
               'Content-Disposition' =>
@@ -188,7 +188,7 @@ describe('Exports', type: :request) do
           specify do
             subject
 
-            expect(response.status).to(eq(404))
+            expect(response).to have_http_status(404)
           end
         end
       end
