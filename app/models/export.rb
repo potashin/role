@@ -20,7 +20,7 @@ class Export < ApplicationRecord
          active: 'active',
          failed: 'failed',
          succeeded: 'succeeded',
-         dead: 'dead'
+         deleted: 'deleted'
        },
        validate: true,
        _default: 'created'

@@ -1,7 +1,7 @@
 class CreateRoleExports < ActiveRecord::Migration[7.0]
   def change
     entity_types = %w[person company]
-    status_types = %w[created active failed succeeded dead]
+    status_types = %w[created active failed succeeded deleted]
 
     create_enum(:entity_type, entity_types)
     create_enum(:status_type, status_types)

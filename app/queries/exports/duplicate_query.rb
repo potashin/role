@@ -6,7 +6,7 @@ module Exports
       Export
         .where(filters)
         .where(created_at: Time.current.beginning_of_day..)
-        .where.not(status: %i[failed dead])
+        .where.not(status: %i[failed deleted])
     end
 
     def required_filters_fields

@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_05_133705) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "entity_type", ["person", "company"]
-  create_enum "status_type", ["created", "active", "failed", "succeeded", "dead"]
+  create_enum "status_type", ["created", "active", "failed", "succeeded", "deleted"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false

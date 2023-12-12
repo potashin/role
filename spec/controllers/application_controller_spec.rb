@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
@@ -107,7 +105,7 @@ RSpec.describe ApplicationController, type: :controller do
         expect(json_errors).to contain_exactly(
           attribute: 'entity_type',
           type: 'forbidden',
-          message:
+          message: 'Entity type parameter is forbidden'
         )
       end
     end
