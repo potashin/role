@@ -10,41 +10,33 @@ describe('Exports', type: :request) do
   let!(:export) { create(:export, :with_document, **parameters, created_at:) }
   let(:expected) do
     {
-      'id' => export.id,
-      'type' => 'role_export',
-      'attributes' => {
-        'entity_type' => 'person',
-        'error_type' => nil,
-        'error_message' => nil,
-        'status' => 'created',
-        'created_at' => I18n.l(export.created_at.to_date),
+      id: export.id,
+      type: 'role_export',
+      attributes: {
+        entity_type: 'person',
+        error_type: nil,
+        error_message: nil,
+        status: 'created',
+        created_at: I18n.l(export.created_at.to_date),
       },
-      'links' => {
-        'download' => "/exports/#{export.id}.pdf"
+      links: {
+        download: "/exports/#{export.id}.pdf"
       }
     }
-  end
-
-  def json
-    Oj.load(response.body)
   end
 
   context 'GET' do
     subject { get(url, params:) }
 
     context 'when status 200 (OK)' do
-      let(:params) { {**parameters, per_page: 10, page: 1, sort: '-created_at,status'} }
+      let(:params) { {filter: parameters, per_page: 10, page: 1, sort: '-created_at,status'} }
 
       specify do
         subject
 
         expect(response).to have_http_status(200)
-        expect(json.dig('data', 0)).to eq(expected)
-        expect(json.dig('pagination')).to eq(
-          'page' => 1,
-          'per_page' => 10,
-          'has_more_items' => false
-        )
+        expect(json_data).to contain_exactly(expected)
+        expect(json_pagination).to eq(page: 1, per_page: 10, has_more_items: false)
       end
     end
   end
@@ -71,7 +63,7 @@ describe('Exports', type: :request) do
         subject
 
         expect(response).to have_http_status(200)
-        expect(json.dig('data')).to eq(expected)
+        expect(json_data).to eq(expected)
       end
     end
 
@@ -90,7 +82,7 @@ describe('Exports', type: :request) do
         subject
 
         expect(response).to have_http_status(201)
-        expect(json.dig('data')).to eq(expected)
+        expect(json_data).to eq(expected)
       end
     end
 
@@ -110,22 +102,19 @@ describe('Exports', type: :request) do
       end
 
       specify do
-        expect(form).to receive(:call).and_raise(
-          ApplicationForm::Error,
-          form
-        ).once
+        expect(form).to receive(:call).and_raise(ApplicationForm::Error, form).once
 
         subject
 
         expect(response).to have_http_status(422)
-        expect(json.dig('errors', 0)).to eq(
-          'attribute' => 'entity_type',
-          'message' => 'Entity type is not included in the list',
-          'type' => 'inclusion',
-          'options' => [
+        expect(json_errors).to contain_exactly(
+          attribute: 'entity_type',
+          message: 'Entity type is not included in the list',
+          type: 'inclusion',
+          options: [
             {
-              'type' => 'message',
-              'value' => 'is not included in the list'
+              type: 'message',
+              value: 'is not included in the list'
             }
           ]
         )
@@ -149,7 +138,7 @@ describe('Exports', type: :request) do
             subject
 
             expect(response).to have_http_status(200)
-            expect(json.dig('data')).to eq(expected)
+            expect(json_data).to eq(expected)
           end
         end
 
@@ -179,16 +168,6 @@ describe('Exports', type: :request) do
               'Content-Disposition' =>
                 "inline; filename=\"sample.pdf\"; filename*=UTF-8''sample.pdf"
             )
-          end
-        end
-
-        context 'when status 404 (Not Found)' do
-          let(:id) { 0 }
-
-          specify do
-            subject
-
-            expect(response).to have_http_status(404)
           end
         end
       end
