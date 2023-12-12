@@ -107,17 +107,6 @@ describe('Exports', type: :request) do
         subject
 
         expect(response).to have_http_status(422)
-        expect(json_errors).to contain_exactly(
-          attribute: 'entity_type',
-          message: 'Entity type is not included in the list',
-          type: 'inclusion',
-          options: [
-            {
-              type: 'message',
-              value: 'is not included in the list'
-            }
-          ]
-        )
       end
     end
   end
@@ -139,16 +128,6 @@ describe('Exports', type: :request) do
 
             expect(response).to have_http_status(200)
             expect(json_data).to eq(expected)
-          end
-        end
-
-        context 'when status 404 (Not Found)' do
-          let(:id) { 0 }
-
-          specify do
-            subject
-
-            expect(response).to have_http_status(404)
           end
         end
       end

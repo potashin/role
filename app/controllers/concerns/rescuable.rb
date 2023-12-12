@@ -3,28 +3,20 @@ module Rescuable
 
   included do
     rescue_from(ActionController::ParameterMissing, with: :handle_parameter_missing)
-    rescue_from(AbstractController::ActionNotFound, with: :handle_action_not_found)
-    rescue_from(ActiveRecord::RecordNotFound, with: :handle_record_not_found)
+    rescue_from(AbstractController::ActionNotFound, with: :handle_not_found)
+    rescue_from(ActiveRecord::RecordNotFound, with: :handle_not_found)
     rescue_from(ApplicationForm::Error, with: :handle_form_error)
     rescue_from(Exceptions::InvalidParameter, with: :handle_invalid_parameter)
   end
 
-  private
-
   def handle_parameter_missing(exception)
-    json = ErrorSerializer.call(:parameter, :missing, message: exception.full_message)
+    json = ErrorSerializer.call(:parameter, :missing, message: exception.message)
 
     render(json:, status: :unprocessable_entity)
   end
 
-  def handle_action_not_found(exception)
-    json = ErrorSerializer.call(:action, :not_found, message: exception.full_message)
-
-    render(json:, status: :not_found)
-  end
-
-  def handle_record_not_found(exception)
-    json = ErrorSerializer.call(:record, :not_found, message: exception.full_message)
+  def handle_not_found(exception)
+    json = ErrorSerializer.call(nil, :not_found, message: exception.message)
 
     render(json:, status: :not_found)
   end
@@ -39,7 +31,7 @@ module Rescuable
     json = ErrorSerializer.call(
       exception.attribute,
       exception.type,
-      message: exception.full_message,
+      message: exception.message,
       options: exception.options
     )
 
