@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe(ExportService, type: :service) do
-  let(:export) {
- create(:export, entity_id: '772002950380', status: 'created', entity_type: 'person') }
+  let(:export) do
+    create(:export, entity_id: '772002950380', status: 'created', entity_type: 'person')
+  end
   let(:result_file_fixture) { file_fixture('sample.pdf').read }
 
   let(:notifier) { double('some notifier') }

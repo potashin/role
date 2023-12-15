@@ -13,11 +13,7 @@ class ExportSerializer < ApplicationSerializer
         created_at: build_date(export.created_at)
       },
       links: {
-        download: url_helpers.export_path(
-          id: export.id,
-          entity_id: export.entity_id,
-          format: :pdf
-        )
+        download: url_helpers.export_path(id: export.id, format: :pdf)
       }
     }
   end

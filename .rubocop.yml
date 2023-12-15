@@ -141,7 +141,7 @@ Style/NumericLiterals:
 
 Style/EndlessMethod:
   Enabled: true
-  EnforcedStyle: allow_single_line
+  EnforcedStyle: disallow
 
 Layout/AccessModifierIndentation:
   Enabled: true

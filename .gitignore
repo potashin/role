@@ -7,11 +7,6 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
-!/.env.template
-
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -30,8 +25,10 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-# Ignore master key for decrypting credentials and more.
-/config/master.key
-
 # Ignore MacOS system files
 .DS_Store
+
+# Ignore master key for decrypting credentials and more.
+/config/credentials/development.*
+/config/credentials/test.*
+/config/credentials/production.key

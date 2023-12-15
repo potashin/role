@@ -1,5 +1,5 @@
 class ExportService
-  class ResultFileTypeError < StandardError; end
+  class ResultFileTypeError < Exceptions::Base; end
 
   def initialize(export, service: RequestService, notifier: nil)
     @export = export

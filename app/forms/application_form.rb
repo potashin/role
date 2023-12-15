@@ -2,7 +2,7 @@ class ApplicationForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  class Error < StandardError
+  class Error < Exceptions::Base
     attr_reader :form
 
     def initialize(form)

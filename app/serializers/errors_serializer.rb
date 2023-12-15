@@ -13,7 +13,7 @@ class ErrorsSerializer < ApplicationSerializer
     ErrorSerializer.call(
       error.attribute,
       error.type,
-      message: error.full_message,
+      message: error.message,
       options: error.options,
       root: false
     )

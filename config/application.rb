@@ -20,9 +20,6 @@ Bundler.require(*Rails.groups)
 
 require 'freezolite/auto'
 
-require 'dotenv/rails'
-Dotenv::Railtie.load
-
 module Role
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
