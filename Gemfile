@@ -47,6 +47,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'rubocop-performance'
   gem 'pry-rails'
 end
 
@@ -62,4 +63,5 @@ group :test do
   gem 'brakeman'
   gem 'simplecov'
   gem 'webmock', '~> 3.14'
+  gem 'shoulda-matchers'
 end

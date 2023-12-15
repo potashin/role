@@ -75,11 +75,10 @@ RSpec.describe ApplicationController, type: :controller do
 
       before do
         errors.add(:id, :invalid, message:, minimum: 10)
+        subject
       end
 
       specify do
-        subject
-
         expect(response).to have_http_status(422)
         expect(json_errors).to contain_exactly(
           attribute: 'id',

@@ -1,0 +1,23 @@
+Lint/AmbiguousBlockAssociation:
+  Enabled: true
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/BigDecimalNew:
+  Enabled: false
+
+Lint/HeredocMethodCallPosition:
+  Enabled: true
+
+Lint/NestedMethodDefinition:
+  Enabled: true
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: true
+
+Lint/RequireParentheses:
+  Enabled: true

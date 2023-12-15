@@ -1,0 +1,55 @@
+require:
+  - rubocop-rspec
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 10
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: true
+
+RSpec/VerifiedDoubles:
+  Enabled: true
+
+RSpec/LetSetup:
+  Enabled: true
+
+RSpec/DescribedClass:
+  Enabled: true
+
+RSpec/SpecFilePathSuffix:
+  Enabled: true
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+# RSpec/ExampleDescription:
+#   Enabled: true
+
+RSpec/Pending:
+  Enabled: true
+
+RSpec/EmptyExampleGroup:
+  Enabled: true
+
+RSpec/VariableName:
+  EnforcedStyle: snake_case
+
+RSpec/VariableDefinition:
+  Enabled: true
+

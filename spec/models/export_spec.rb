@@ -18,4 +18,7 @@
 require 'rails_helper'
 
 RSpec.describe(Export, type: :model) do
+  specify do
+    expect(described_class.new).to have_one_attached(:document)
+  end
 end

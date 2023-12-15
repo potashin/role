@@ -1,6 +1,5 @@
 class RequestService
-  URL = 'https://egrul.nalog.ru'
-  MAX_RETRY_COUNT = 5
+  URL = 'https://egrul.nalog.ru'.freeze
 
   class InvalidArgumentError < Exceptions::Base; end
   class RequestTokenError < Exceptions::Base; end
@@ -39,16 +38,8 @@ class RequestService
 
   private
 
-  def result_status_ready?(token, retry_count = 0)
-    return true if get_result_status(token) == 'ready'
-
-    retry_count += 1
-    timeout = interval(retry_count)
-    sleep(timeout)
-
-    return false if retry_count >= MAX_RETRY_COUNT
-
-    result_status_ready?(token, retry_count)
+  def result_status_ready?(token)
+    get_result_status(token) == 'ready'
   end
 
   def get_request_token
@@ -107,9 +98,5 @@ class RequestService
 
   def output(*messages)
     @debug && print("* * *\n#{messages.join("; ")}\n* * *\n")
-  end
-
-  def interval(n)
-    n < 2 || n > 20 ? n : interval(n - 1) + interval(n - 2)
   end
 end

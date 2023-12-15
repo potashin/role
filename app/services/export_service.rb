@@ -1,10 +1,9 @@
 class ExportService
   class ResultFileTypeError < Exceptions::Base; end
 
-  def initialize(export, service: RequestService, notifier: nil)
+  def initialize(export, service: RequestService)
     @export = export
     @service = service
-    @notifier = notifier
   end
 
   def call
@@ -12,32 +11,32 @@ class ExportService
     process
     @export.update(status: 'succeeded')
   rescue @service::RequestTokenError
-    @export.update(status: 'created')
-    notify(:request_token)
+    error_message = build_error_message(:request_token)
+    @export.update(status: 'created', error_message:)
   rescue @service::EmptyResultRequestError
-    # NOTE: add error_type
-    @export.update(status: 'failed')
-    notify(:empty_result_request)
+    error_message = build_error_message(:empty_result_request)
+    @export.update(status: 'failed', error_message:)
   rescue @service::ResultRequestError
-    @export.update(status: 'created')
-    notify(:result_requst)
+    error_message = build_error_message(:result_requst)
+    @export.update(status: 'created', error_message:)
   rescue @service::ResultStatusTimeoutError
-    @export.update(status: 'created')
-    notify(:result_status_timeout)
+    error_message = build_error_message(:result_status_timeout)
+    @export.update(status: 'created', error_message:)
   rescue @service::ResultFileError
-    @export.update(status: 'created')
-    notify(:result_file)
+    error_message = build_error_message(:result_file)
+    @export.update(status: 'created', error_message:)
   rescue @service::ResultTokenError
-    @export.update(status: 'created')
-    notify(:result_token)
+    error_message = build_error_message(:result_token)
+    @export.update(status: 'created', error_message:)
   rescue ResultFileTypeError
-    @export.update(document: nil, status: 'created')
-    notify(:result_file_type)
+    error_message = build_error_message(:result_file_type)
+    @export.update(document: nil, status: 'created', error_message:)
   rescue
-    notify(:unknown)
-    @export.update(status: 'failed')
+    error_message = build_error_message(:unknown)
+    @export.update(status: 'failed', error_message:)
   ensure
-    @export.update(status: 'created') if @export.active?
+    error_message = build_error_message(:empty_result_request)
+    @export.update(status: 'created', error_message:) if @export.active?
   end
 
   private
@@ -50,12 +49,7 @@ class ExportService
     raise ResultFileTypeError.new unless @export.valid?
   end
 
-  def datastamp
-    @export.as_json(only: [:id, :ogrn])
-  end
-
-  def notify(t_error)
-    message = I18n.t("services.egrul_export_service.errors.#{t_error}", data: datastamp)
-    @notifier&.perform(tag: :egrul, message:)
+  def build_error_message(type)
+    I18n.t("services.egrul_export_service.errors.#{type}", data: @export.as_json)
   end
 end
