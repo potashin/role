@@ -19,6 +19,10 @@ jobs:
         image: postgres:11-alpine
         ports:
           - "5432:5432"
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     env:
       RAILS_ENV: test
     steps:
@@ -35,7 +39,7 @@ jobs:
           bundler-cache: true
       # Add or replace database setup steps here
       - name: Set up database schema
-        run: bin/rails db:schema:load
+        run: bin/rails db:setup
       # Add or replace test runners here
       - name: Run tests
         run: bin/rspec
