@@ -19,13 +19,8 @@ jobs:
         image: postgres:11-alpine
         ports:
           - "5432:5432"
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/${{ secrets.POSTGRES_DB }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
