@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
-RSpec.describe(ExportWorker, type: :job) do
+RSpec.describe(ExportJob, type: :job) do
   let(:export) { create(:export, status: 'created', entity_type: 'company') }
   let(:service_class) { ExportService }
   let(:service) { instance_double(service_class) }

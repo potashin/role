@@ -1,5 +1,5 @@
-class ExportWorker
-  include Sidekiq::Worker
+class ExportJob
+  include Sidekiq::Job
 
   sidekiq_options queue: :export, retry: false
 

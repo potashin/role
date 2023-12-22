@@ -52,7 +52,7 @@ class ExportsController < ApplicationController
     form = Exports::CreateForm.call(Export.new, form_params)
     export = form.reflection
 
-    ExportWorker.perform_async(export.id)
+    ExportJob.perform_async(export.id)
 
     export
   end

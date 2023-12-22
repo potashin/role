@@ -58,7 +58,7 @@ describe('Exports', type: :request) do
       specify do
         expect(form).not_to receive(:call)
 
-        expect(ExportWorker).not_to receive(:perform_async)
+        expect(ExportJob).not_to receive(:perform_async)
 
         subject
 
@@ -77,7 +77,7 @@ describe('Exports', type: :request) do
       specify do
         expect(form).to receive(:call).and_return(form).once
 
-        expect(ExportWorker).to receive(:perform_async).with(export.id).once
+        expect(ExportJob).to receive(:perform_async).with(export.id).once
 
         subject
 

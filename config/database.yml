@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  database: <%= Rails.application.credentials.dig(:database, :name) %>
-  username: <%= Rails.application.credentials.dig(:database, :user) %>
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
+  database: <%= Rails.application.credentials.database.name %>
+  username: <%= Rails.application.credentials.database.user %>
+  password: <%= Rails.application.credentials.database.password %>
 
 development:
   <<: *default

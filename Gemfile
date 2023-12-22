@@ -38,11 +38,14 @@ gem 'oj', '~> 3.13'
 gem 'freezolite'
 gem 'strong_migrations'
 
+group :production, :development do
+  gem 'redis'
+end
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri]
   gem 'rspec-rails'
-  gem 'rspec-sidekiq'
   gem 'factory_bot_rails'
   gem 'rubocop'
   gem 'rubocop-rails'
@@ -64,4 +67,6 @@ group :test do
   gem 'simplecov'
   gem 'webmock', '~> 3.14'
   gem 'shoulda-matchers'
+  gem 'mock_redis'
+  gem 'rspec-sidekiq'
 end
