@@ -32,3 +32,5 @@
 /config/credentials/development.*
 /config/credentials/test.*
 /config/credentials/production.key
+
+/config/credentials/ci.key
