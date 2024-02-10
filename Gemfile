@@ -32,7 +32,7 @@ gem 'bootsnap', require: false
 
 gem 'activestorage', '~> 7.0'
 gem 'active_storage_validations', '~> 1.1.1'
-gem 'sidekiq', '~> 6.4'
+gem 'sidekiq', '~> 7.1'
 gem 'typhoeus', '~> 1.4'
 gem 'oj', '~> 3.13'
 gem 'freezolite'
